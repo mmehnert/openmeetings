@@ -16,9 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# enable multiverse
-bash "enable multiverse" do
-  code <<EOF
+
+if platform?("ubuntu") 
+  ruby_block do
+    # enable multiverse
+    bash "enable multiverse" do
+      code <<EOF
 still=`egrep "^# deb .*multiverse" /etc/apt/sources.list`
 echo "$still"
 if [ -n "$still" ]; then
@@ -29,7 +32,25 @@ if [ -n "$still" ]; then
   apt-get update
 fi
 EOF
+    end
+  end
 end
+if platform?("debian")
+  include_recipe 'apt'
+  cookbook_file "/etc/apt/trusted.gpg.d/multimedia.gpg" do
+    source "multimedia.gpg"
+    mode 0655
+    owner "root"
+    group "root"
+  end
+  apt_repository "multimedia" do
+    uri "http://www.deb-multimedia.org"
+    components ["main","non-free"]
+    distribution node["lsb"]["codename"]
+  end
+end
+
+
 
 #
 # could not find: libt-1.5 gs-gpl
@@ -38,7 +59,6 @@ end
   imagemagick
   libgif-dev xpdf libfreetype6 libfreetype6-dev libjpeg62 libjpeg8 libjpeg8-dev
   g++
-  libjpeg-dev
   libdirectfb-dev
   libart-2.0-2 zip unzip bzip2 subversion git-core checkinstall yasm texi2html
   libfaac-dev libfaad-dev libmp3lame-dev libsdl1.2-dev libx11-dev libxfixes-dev libxvidcore-dev
@@ -48,6 +68,18 @@ end
     action [:install]
   end
 
+end
+
+
+if platform?("ubuntu") 
+  ruby_block do
+    %w{libjpeg-dev
+      }.eatch do |p|
+      package p do
+        action [:install]
+      end
+    end
+  end
 end
 
 bash "swf tools from source" do
