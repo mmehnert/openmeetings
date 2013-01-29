@@ -1,4 +1,4 @@
-#
+
 # Cookbook Name:: openmeetings
 # Recipe:: default
 #
@@ -55,8 +55,8 @@ end
 #
 # could not find: libt-1.5 gs-gpl
 %w{curl wget nano
-  openoffice.org-writer openoffice.org-calc openoffice.org-impress openoffice.org-draw openoffice.org-math
-  imagemagick
+  libreoffice-writer libreoffice-calc libreoffice-impress libreoffice-draw libreoffice-math
+  imagemagick sun-java6-jdk
   libgif-dev xpdf libfreetype6 libfreetype6-dev libjpeg62 libjpeg8 libjpeg8-dev
   g++
   libdirectfb-dev
@@ -133,7 +133,7 @@ CODE
 end
 
 subversion "openmeetings" do
-  repository "https://svn.apache.org/repos/asf/incubator/openmeetings/trunk/singlewebapp/"
+  repository "http://svn.apache.org/repos/asf/openmeetings/trunk/singlewebapp"
   revision "HEAD"
   destination "/usr/adm/singlewebapp"
   action :sync
