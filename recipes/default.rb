@@ -36,6 +36,7 @@ EOF
   end
 end
 if platform?("debian")
+  include_recipe 'java'
   include_recipe 'apt'
   cookbook_file "/etc/apt/trusted.gpg.d/multimedia.gpg" do
     source "multimedia.gpg"
@@ -56,7 +57,7 @@ end
 # could not find: libt-1.5 gs-gpl
 %w{curl wget nano
   libreoffice-writer libreoffice-calc libreoffice-impress libreoffice-draw libreoffice-math
-  imagemagick sun-java6-jdk
+  imagemagick 
   libgif-dev xpdf libfreetype6 libfreetype6-dev libjpeg62 libjpeg8 libjpeg8-dev
   g++
   libdirectfb-dev
