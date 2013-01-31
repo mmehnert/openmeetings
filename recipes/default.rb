@@ -213,3 +213,6 @@ update-rc.d red5 defaults
 CODE
 end
 
+# make better init script
+# use python mechanize to configure the web form / installation thingy
+
