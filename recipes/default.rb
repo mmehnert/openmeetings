@@ -172,15 +172,22 @@ end
 
 bash "install the built openmeetings" do
 code <<-CODE
-mv /usr/adm/singlewebapp/dist_ok/red5 /usr/lib/
+if [ -d /usr/adm/singlewebapp/dist_ok/red5 ]; then
+	if [ -d /usr/lib/red5 ]; then
+		rm -r /usr/lib/red5;
+	fi
+	mv /usr/adm/singlewebapp/dist_ok/red5 /usr/lib/
+fi
 cd /usr/lib/red5
+
 cp -R /usr/adm/jodconverter-core-3.0-beta-4 webapps/openmeetings
 chown -R nobody /usr/lib/red5
 chmod +x /usr/lib/red5/red5.sh
 chmod +x /usr/lib/red5/red5-debug.sh
 
 [ ! -f "webapps/openmeetings/WEB-INF/classes/META-INF/persistence.xml-ori" ] && mv webapps/openmeetings/WEB-INF/classes/META-INF/persistence.xml webapps/openmeetings/WEB-INF/classes/META-INF/persistence.xml-ori
-# not useful since we built with mysql. cp webapps/openmeetings/WEB-INF/classes/META-INF/mysql_persistence.xml webapps/openmeetings/WEB-INF/classes/META-INF/persistence.xml
+# not useful since we built with mysql. 
+cp webapps/openmeetings/WEB-INF/classes/META-INF/mysql_persistence.xml webapps/openmeetings/WEB-INF/classes/META-INF/persistence.xml
 
 # rant: J2EE has no idea how to not hardcode deployment parameters way deep in the code. OO code is beautiful but deployment is a lot of bash.
 persistence_loc=`pwd`/webapps/openmeetings/WEB-INF/classes/META-INF/persistence.xml
