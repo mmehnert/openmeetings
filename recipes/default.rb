@@ -57,7 +57,7 @@ end
 # could not find: libt-1.5 gs-gpl
 %w{curl wget nano
   libreoffice-writer libreoffice-calc libreoffice-impress libreoffice-draw libreoffice-math
-  imagemagick 
+  imagemagick swftools
   libgif-dev xpdf libfreetype6 libfreetype6-dev libjpeg62 libjpeg8 libjpeg8-dev
   g++
   libdirectfb-dev
@@ -83,19 +83,7 @@ if platform?("ubuntu")
   end
 end
 
-bash "swf tools from source" do
-  code <<-CODE
-curl -O http://www.swftools.org/swftools-2011-12-15-1229.tar.gz
-tar -zvxf swftools-2011-12-15-1229.tar.gz
-cd swftools-2011-12-15-1229
-./configure --prefix=/usr/local
-make
-make install
-CODE
-  only_if do
-    `pdf2swf -V | grep swftools | grep 2011-12-15-1229`.strip.empty?
-  end
-end
+
 
 bash "ffmpeg from source" do
   code <<-CODE
