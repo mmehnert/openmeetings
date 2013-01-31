@@ -57,7 +57,7 @@ end
 # could not find: libt-1.5 gs-gpl
 %w{curl wget nano
   libreoffice-writer libreoffice-calc libreoffice-impress libreoffice-draw libreoffice-math
-  imagemagick swftools
+  imagemagick swftools ffmpeg
   libgif-dev xpdf libfreetype6 libfreetype6-dev libjpeg62 libjpeg8 libjpeg8-dev
   g++
   libdirectfb-dev
@@ -84,28 +84,6 @@ if platform?("ubuntu")
 end
 
 
-
-bash "ffmpeg from source" do
-  code <<-CODE
-rm -rf /tmp/ffmpeg_build
-mkdir -p /tmp/ffmpeg_build
-curl -O http://ffmpeg.org/releases/ffmpeg-0.9.1.tar.gz
-tar zxf ffmpeg-0.9.1.tar.gz
-cd ffmpeg-0.9.1
-./configure --enable-libmp3lame --enable-libxvid --enable-libvorbis --enable-libgsm --enable-libfaac --enable-gpl --enable-nonfree
-make
-checkinstall
-version_check=`ffmpeg -version | grep ffmpeg | grep 0.9.1`
-if [ -z "$version_check" ]; then
-  echo "Failed to install ffmpeg"
-  exit 1
-fi
-CODE
-  only_if do
-    `ffmpeg -version | grep ffmpeg | grep 0.9.1`.strip.empty?
-  end
-
-end
 
 include_recipe "ant"
 bash "jod install" do
