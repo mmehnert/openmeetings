@@ -60,7 +60,7 @@ end
   imagemagick swftools ffmpeg
   libgif-dev xpdf libfreetype6 libfreetype6-dev libjpeg62 libjpeg8 libjpeg8-dev
   g++
-  libdirectfb-dev
+  libdirectfb-dev libmysqlclient-dev
   libart-2.0-2 zip unzip bzip2 subversion git-core checkinstall yasm texi2html
   libfaac-dev libfaad-dev libmp3lame-dev libsdl1.2-dev libx11-dev libxfixes-dev libxvidcore-dev
   zlib1g-dev libogg-dev sox libvorbis0a libvorbis-dev libgsm1 libgsm1-dev libfaad2 flvtool2 lame
@@ -179,6 +179,20 @@ update-rc.d red5 defaults
 CODE
 end
 
-# make better init script
-# use python mechanize to configure the web form / installation thingy
+chef_gem 'mechanize' do
+  action :nothing
+end.run_action(:install)
+
+
+# use ruby mechanize to configure the web form / installation thingy
+# http://mechanize.rubyforge.org/EXAMPLES_rdoc.html
+# http://wiki.opscode.com/pages/viewpage.action?pageId=15728818
+
+ruby_block "install_form" do
+  block do
+    require 'rubygems'
+    require 'mechanize'
+  end
+  action :nothing
+end
 
