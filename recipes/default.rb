@@ -59,7 +59,7 @@ end
   libreoffice-writer libreoffice-calc libreoffice-impress libreoffice-draw libreoffice-math
   imagemagick swftools ffmpeg
   libgif-dev xpdf libfreetype6 libfreetype6-dev libjpeg62 libjpeg8 libjpeg8-dev
-  g++
+  g++ libxml-dev
   libdirectfb-dev libmysqlclient-dev
   libart-2.0-2 zip unzip bzip2 subversion git-core checkinstall yasm texi2html
   libfaac-dev libfaad-dev libmp3lame-dev libsdl1.2-dev libx11-dev libxfixes-dev libxvidcore-dev
